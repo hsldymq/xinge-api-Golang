@@ -259,7 +259,7 @@ func AddAction(k string, v interface{}) ReqOpt {
 }
 
 // CustomContent 修改custom_content 和 custom
-func CustomContent(ct map[string]string) ReqOpt {
+func CustomContent(ct map[string]interface{}) ReqOpt {
 	return func(r *xinge.Request) {
 		r.Message.Android.CustomContent = ct
 		r.Message.IOS.Custom = ct
@@ -270,12 +270,12 @@ func CustomContent(ct map[string]string) ReqOpt {
 func CustomContentSet(k, v string) ReqOpt {
 	return func(r *xinge.Request) {
 		if r.Message.Android.CustomContent == nil {
-			r.Message.Android.CustomContent = map[string]string{k: v}
+			r.Message.Android.CustomContent = map[string]interface{}{k: v}
 		} else {
 			r.Message.Android.CustomContent[k] = v
 		}
 		if r.Message.IOS.Custom == nil {
-			r.Message.IOS.Custom = map[string]string{k: v}
+			r.Message.IOS.Custom = map[string]interface{}{k: v}
 		} else {
 			r.Message.IOS.Custom[k] = v
 		}
