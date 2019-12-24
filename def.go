@@ -241,13 +241,13 @@ type AndroidParams struct {
 	StyleID       int                    `json:"style_id,omitempty"`
 	SmallIcon     int                    `json:"small_icon,omitempty"`
 	Action        map[string]interface{} `json:"action,omitempty"`
-	CustomContent map[string]string      `json:"custom_content,omitempty"`
+	CustomContent map[string]interface{} `json:"custom_content,omitempty"`
 }
 
 // IOSParams iOS push参数
 type IOSParams struct {
-	Aps    *Aps              `json:"aps,omitempty"`
-	Custom map[string]string `json:"custom,omitempty"`
+	Aps    *Aps                   `json:"aps,omitempty"`
+	Custom map[string]interface{} `json:"custom,omitempty"`
 }
 
 // Aps 通知栏iOS消息的aps字段，详情请参照苹果文档
