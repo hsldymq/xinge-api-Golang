@@ -1,5 +1,10 @@
 package xinge
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // TODO: 信鸽人工服务
 // 后端API V3，iOS 发push的时候message_type填message的时候报错
 
@@ -19,6 +24,38 @@ const (
 
 // CommonRsp 信鸽推送接口的通用基础返回值
 type CommonRsp struct {
+	// TODO: doc this
+	Seq int64 `json:"seq"`
+	// 推送id
+	PushID string `json:"push_id"`
+	// 错误码
+	RetCode int `json:"ret_code"`
+	// 用户指定推送环境，仅支持iOS
+	Environment CommonRspEnv `json:"environment"`
+	// 结果描述
+	ErrMsg string `json:"err_msg,omitempty"`
+	// 请求正确且有额外数据时，则结果在这个字段中
+	Result map[string]string `json:"result,omitempty"`
+}
+
+type PushResult struct {
+	raw  string
+	list []string
+}
+
+func (pr *PushResult) UnmarshalJSON(d []byte) error {
+	pr.raw = string(d)
+	restore := make([]interface{}, 0)
+	if err := json.Unmarshal(d, restore); err != nil {
+		return err
+	}
+	for _, each := range restore {
+		pr.list = append(pr.list, fmt.Sprintf("%+v", each))
+	}
+	return nil
+}
+
+type PushResponse struct {
 	// TODO: doc this
 	Seq int64 `json:"seq"`
 	// 推送id
