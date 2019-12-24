@@ -38,15 +38,27 @@ type CommonRsp struct {
 	Result map[string]string `json:"result,omitempty"`
 }
 
+// PushResult 推送响应result字段数据结构
 type PushResult struct {
 	raw  string
 	list []string
 }
 
-func (pr *PushResult) UnmarshalJSON(d []byte) error {
+// String 返回原始文本
+func (pr *PushResult) String() string {
+	return pr.raw
+}
+
+// List 返回解析后的列表数据
+func (pr *PushResult) List() []string {
+	return pr.list
+}
+
+// UnmarshalText 解析JSON字符串
+func (pr *PushResult) UnmarshalText(d []byte) error {
 	pr.raw = string(d)
-	restore := make([]interface{}, 0)
-	if err := json.Unmarshal(d, restore); err != nil {
+	var restore []interface{}
+	if err := json.Unmarshal(d, &restore); err != nil {
 		return err
 	}
 	for _, each := range restore {
@@ -55,6 +67,7 @@ func (pr *PushResult) UnmarshalJSON(d []byte) error {
 	return nil
 }
 
+// PushResponse 推送响应
 type PushResponse struct {
 	// TODO: doc this
 	Seq int64 `json:"seq"`
@@ -67,7 +80,7 @@ type PushResponse struct {
 	// 结果描述
 	ErrMsg string `json:"err_msg,omitempty"`
 	// 请求正确且有额外数据时，则结果在这个字段中
-	Result map[string]string `json:"result,omitempty"`
+	Result PushResult `json:"result,omitempty"`
 }
 
 // AudienceType 推送目标
