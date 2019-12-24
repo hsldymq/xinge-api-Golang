@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/FrontMage/xinge"
+	"github.com/hsldymq/xinge-api-Golang"
 )
 
 // XingeURL 信鸽API地址
